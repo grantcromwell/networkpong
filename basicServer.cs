@@ -45,7 +45,7 @@ class SimpleTcpSrvr
             {
                 goto SpecialMsg;
             }
-            if (srecv != "" && z % 2 == 0)
+            if (srecv != "")
             {
                 Console.WriteLine(srecv);
             }
