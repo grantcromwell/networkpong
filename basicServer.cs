@@ -14,7 +14,7 @@ class SimpleTcpSrvr
         int recv;
         byte[] data = new byte[1024];
         string srecv;
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
+        IPEndPoint ipep = new IPEndPoint(IPAddress.Loopback, 47777);
         Socket newsock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         newsock.Bind(ipep);
         newsock.Listen(10);
@@ -27,21 +27,36 @@ class SimpleTcpSrvr
         data = Encoding.ASCII.GetBytes(welcome);
         client.Send(data, data.Length, SocketFlags.None);
         int z = 0;
+        string smsg = (Environment.NewLine + "BAM!");
         while (true)
         {   
 
             data = new byte[1024];
             recv = client.Receive(data);
             srecv = Encoding.ASCII.GetString(data, 0 ,recv);
-            Console.WriteLine(srecv);
+        
         
             if (srecv.Contains("Pong"))
             {
                 z += 1;
             }
+              
+               if (z > 0 && z % 2 == 0)
+            {
+                goto SpecialMsg;
+            }
+            if (srecv != "" && z % 2 == 0)
+            {
+                Console.WriteLine(srecv);
+            }
             data = new byte[1024];
             data = Encoding.ASCII.GetBytes(welcome); 
             client.Send(data, data.Length, SocketFlags.None);
+
+            SpecialMsg:
+                data = new byte[1024];
+                data = Encoding.ASCII.GetBytes(smsg);
+                client.Send(data, data.Length, SocketFlags.None);
 
             if (recv == 0)
             {

@@ -10,7 +10,7 @@ class SimpleTcpClient
     {
         byte[] data = new byte[1024];
         string input, stringData;
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9050);
+        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 47777);
         Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         
         try
