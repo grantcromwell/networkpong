@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -12,18 +13,11 @@ class SimpleTcpClient
         string input, stringData;
         IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 47777);
         Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        
+        int z = 0;
         try
         {
             server.Connect(ipep);
-        }
-        catch (SocketException e)
-        {
-            Console.WriteLine("Unable to connect to server.");
-            Console.WriteLine(e.ToString());
-            return;
-        }
-        int z = 0;
+
         while (true)
         {
             data = new byte[1024];
@@ -46,14 +40,22 @@ class SimpleTcpClient
                 break;
             }
 
-            if (z == 132)
+            if (z >= 132)
             {
+                Console.WriteLine("Disconnecting from server...");
                 break;
+                
+
             }
         }
-       
-  
-        Console.WriteLine("Disconnecting from server...");
+        }
+        catch (SocketException e)
+        {
+              
+            return;
+        }
+     
+        
         server.Shutdown(SocketShutdown.Both);
         server.Close();
     }
