@@ -54,16 +54,19 @@ class SimpleTcpSrvr
             client.Send(data, data.Length, SocketFlags.None);
 
             SpecialMsg:
+            if (z % 2 != 1){
+          
                 data = new byte[1024];
                 data = Encoding.ASCII.GetBytes(smsg);
                 client.Send(data, data.Length, SocketFlags.None);
 
+            }
             if (recv == 0)
             {
                 break;
             }
 
-            if (z == 132)
+            if (z >= 132)
             {
                 break;
             }
