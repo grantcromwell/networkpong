@@ -27,7 +27,7 @@ class SimpleTcpSrvr
         data = Encoding.ASCII.GetBytes(welcome);
         client.Send(data, data.Length, SocketFlags.None);
         int z = 0;
-        string smsg = (Environment.NewLine + "BAM!");
+        string smsg = ("BAM!");
         while (true)
         {   
 
